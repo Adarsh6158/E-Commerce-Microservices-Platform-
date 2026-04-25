@@ -1,0 +1,156 @@
+# ============================================
+# E-Commerce Microservices Platform - .gitignore
+# ============================================
+
+# ============ JAVA / MAVEN ============
+target/
+.m2/
+*.jar
+*.war
+*.ear
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# ============ NODE.js / NPM ============
+node_modules/
+npm-debug.log
+yarn-error.log
+.npm
+dist/
+build/
+package-lock.json
+yarn.lock
+.pnp
+.pnp.js
+
+# ============ IDE / Editor ============
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Other editors
+.vim/
+.emacs.d/
+
+# ============ OPERATING SYSTEM ============
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+*.swo
+*~
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+
+# ============ ENVIRONMENT & SECRETS ============
+.env
+.env.local
+.env.*.local
+.env.prod
+.env.dev
+.env.test
+.secrets/
+secrets.json
+*.pem
+*.key
+*.crt
+
+# ============ LOGS ============
+*.log
+*.log.*
+logs/
+log/
+
+# ============ COVERAGE & REPORTS ============
+coverage/
+.nyc_output/
+htmlcov/
+.coverage
+*.lcov
+test-results/
+surefire-reports/
+jacoco*.xml
+
+# ============ BUILD / DIST ============
+dist/
+build/
+bin/
+lib/
+.gradle/
+.gradle
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# ============ DATABASE ============
+*.db
+*.sqlite
+*.sqlite3
+data/
+db/
+
+# ============ DOCKER ============
+docker-compose.override.yml
+.dockerignore
+
+# ============ TEMPORARY FILES ============
+*.tmp
+*.temp
+.temp/
+tmp/
+.cache
+.venv/
+venv/
+env/
+
+# ============ OS SPECIFIC ============
+.classpath
+.project
+.settings/
+.factorypath
+*.swp
+
+# ============ IDE EXTENSIONS ============
+.lsp
+.pylint.d/
