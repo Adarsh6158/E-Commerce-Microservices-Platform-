@@ -103,48 +103,38 @@ services:
       kafka:
         condition: service_healthy
     entrypoint: ["/bin/bash", "-c"]
-    command: |
-      "
-      echo "Creating Kafka topics"
+    command:
+      - |
+        echo "Creating Kafka topics"
 
-      # Catalog events
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic catalog.product.created
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic catalog.product.updated
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic catalog.product.deleted
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic catalog.product.created
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic catalog.product.updated
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic catalog.product.deleted
 
-      # Order saga events
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 6 --topic order.created
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic order.confirmed
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic order.cancelled
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic order.failed
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 6 --topic order.created
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic order.confirmed
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic order.cancelled
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic order.failed
 
-      # Inventory events
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 6 --topic inventory.reserved
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic inventory.reserve-failed
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic inventory.released
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 6 --topic inventory.reserved
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic inventory.reserve-failed
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic inventory.released
 
-      # Payment events
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 6 --topic payment.completed
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic payment.failed
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic payment.refunded
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 6 --topic payment.completed
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic payment.failed
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic payment.refunded
 
-      # Notification events
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic notification.send
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic notification.send
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic search.index.product
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 6 --topic analytics.events
 
-      # Search indexing events
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 3 --topic search.index.product
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1 --topic order.created.dlq
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1 --topic inventory.reserved.dlq
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1 --topic payment.completed.dlq
+        kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1 --topic notification.send.dlq
 
-      # Analytics events
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 6 --topic analytics.events
-
-      # Dead Letter Queues
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1 --topic order.created.dlq
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1 --topic inventory.reserved.dlq
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1 --topic payment.completed.dlq
-      kafka-topics --create --if-not-exists --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1 --topic notification.send.dlq
-
-      echo "All topics created successfully."
-      "
+        echo "All topics created successfully."
+      
 
 
 #Redis for Caching
