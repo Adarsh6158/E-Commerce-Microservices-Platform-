@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="SERVICE_NAME" value="api-gateway"/>
+
+    <!-- Console appender: structured JSON for production, pattern for local dev -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"service":"${SERVICE_NAME}"}</customFields>
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
+            <includeMdcKeyName>userId</includeMdcKeyName>
+            <timeZone>UTC</timeZone>
+        </encoder>
+    </appender>
+
+    <!-- Plain console for local development -->
+    <appender name="CONSOLE_PLAIN" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{correlationId:-}] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Profile-based: use JSON in docker -->
+    <springProfile name="docker">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="!docker">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE_PLAIN"/>
+        </root>
+    </springProfile>
+
+    <!-- Gateway-specific loggers -->
+    <logger name="com.ecommerce.gateway" level="DEBUG" additivity="false">
+        <springProfile name="docker">
+            <appender-ref ref="CONSOLE"/>
+        </springProfile>
+        <springProfile name="!docker">
+            <appender-ref ref="CONSOLE_PLAIN"/>
+        </springProfile>
+    </logger>
+
+    <!-- Suppress noisy loggers -->
+    <logger name="io.netty" level="INFO"/>
+    <logger name="reactor.netty" level="INFO"/>
+    <logger name="org.springframework.cloud.gateway" level="INFO"/>
+    <logger name="io.lettuce" level="INFO"/>
+
+</configuration>

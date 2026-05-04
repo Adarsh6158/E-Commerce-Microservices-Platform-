@@ -1,0 +1,313 @@
+server:
+  port: 8080
+  netty:
+    connection-timeout: 5000
+
+spring:
+  application:
+    name: api-gateway
+
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 16
+          max-idle: 8
+          min-idle: 4
+
+  cloud:
+    gateway:
+      default-filters:
+        - name: RequestSize
+          args:
+            maxSize: 5MB
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "http://localhost:*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - Authorization
+              - Content-Type
+              - X-Correlation-Id
+              - X-User-Id
+              - X-Requested-With
+              - Accept
+              - Origin
+            exposedHeaders:
+              - X-Correlation-Id
+            allowCredentials: true
+            maxAge: 3600
+
+      routes:
+
+        # Auth Service
+        - id: auth-service
+          uri: http://${AUTH_SERVICE_HOST:localhost}:8081
+          predicates:
+            - Path=/api/auth,/api/auth/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: authCircuitBreaker
+                fallbackUri: forward:/fallback/auth
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 20
+                redis-rate-limiter.burstCapacity: 40
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@ipKeyResolver}"
+
+        # Catalog Service
+        - id: catalog-service
+          uri: http://${CATALOG_SERVICE_HOST:localhost}:8082
+          predicates:
+            - Path=/api/products,/api/products/**,/api/categories,/api/categories/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: catalogCircuitBreaker
+                fallbackUri: forward:/fallback/catalog
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 50
+                redis-rate-limiter.burstCapacity: 100
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@ipKeyResolver}"
+
+        # Search Service
+        - id: search-service
+          uri: http://${SEARCH_SERVICE_HOST:localhost}:8083
+          predicates:
+            - Path=/api/search,/api/search/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: searchCircuitBreaker
+                fallbackUri: forward:/fallback/search
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 50
+                redis-rate-limiter.burstCapacity: 100
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@ipKeyResolver}"
+
+        # Cart Service 
+        - id: cart-service
+          uri: http://${CART_SERVICE_HOST:localhost}:8084
+          predicates:
+            - Path=/api/cart,/api/cart/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: cartCircuitBreaker
+                fallbackUri: forward:/fallback/cart
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 30
+                redis-rate-limiter.burstCapacity: 60
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@userKeyResolver}"
+
+        # Pricing Service
+        - id: pricing-service
+          uri: http://${PRICING_SERVICE_HOST:localhost}:8085
+          predicates:
+            - Path=/api/pricing,/api/pricing/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: pricingCircuitBreaker
+                fallbackUri: forward:/fallback/pricing
+
+        # Inventory Service
+        - id: inventory-service
+          uri: http://${INVENTORY_SERVICE_HOST:localhost}:8086
+          predicates:
+            - Path=/api/inventory,/api/inventory/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: inventoryCircuitBreaker
+                fallbackUri: forward:/fallback/inventory
+
+        # Order Service
+        - id: order-service
+          uri: http://${ORDER_SERVICE_HOST:localhost}:8087
+          predicates:
+            - Path=/api/orders,/api/orders/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: orderCircuitBreaker
+                fallbackUri: forward:/fallback/order
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@userKeyResolver}"
+
+        # Payment Service
+        - id: payment-service
+          uri: http://${PAYMENT_SERVICE_HOST:localhost}:8088
+          predicates:
+            - Path=/api/payments,/api/payments/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: paymentCircuitBreaker
+                fallbackUri: forward:/fallback/payment
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@userKeyResolver}"
+
+        # Notification Service
+        - id: notification-service
+          uri: http://${NOTIFICATION_SERVICE_HOST:localhost}:8089
+          predicates:
+            - Path=/api/notifications,/api/notifications/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: notificationCircuitBreaker
+                fallbackUri: forward:/fallback/notification
+
+        # Analytics Service (Admin only)
+        - id: analytics-service
+          uri: http://${ANALYTICS_SERVICE_HOST:localhost}:8090
+          predicates:
+            - Path=/api/analytics,/api/analytics/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: analyticsCircuitBreaker
+                fallbackUri: forward:/fallback/analytics
+
+
+# Resilience4j Circuit Breaker Config
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+        record-exceptions:
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+          - org.springframework.web.reactive.function.client.WebClientResponseException$ServiceUnavailable
+          - org.springframework.web.reactive.function.client.WebClientResponseException$GatewayTimeout
+
+    instances:
+      authCircuitBreaker:
+        base-config: default
+      catalogCircuitBreaker:
+        base-config: default
+      searchCircuitBreaker:
+        base-config: default
+        failure-rate-threshold: 60
+      cartCircuitBreaker:
+        base-config: default
+      pricingCircuitBreaker:
+        base-config: default
+      inventoryCircuitBreaker:
+        base-config: default
+      orderCircuitBreaker:
+        base-config: default
+        wait-duration-in-open-state: 15s
+      paymentCircuitBreaker:
+        base-config: default
+        wait-duration-in-open-state: 20s
+      notificationCircuitBreaker:
+        base-config: default
+        failure-rate-threshold: 70
+      analyticsCircuitBreaker:
+        base-config: default
+        failure-rate-threshold: 70
+
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 5s
+    instances:
+      authCircuitBreaker:
+        timeout-duration: 3s
+      catalogCircuitBreaker:
+        timeout-duration: 5s
+      searchCircuitBreaker:
+        timeout-duration: 5s
+      cartCircuitBreaker:
+        timeout-duration: 3s
+      orderCircuitBreaker:
+        timeout-duration: 10s
+      paymentCircuitBreaker:
+        timeout-duration: 15s
+
+
+# Gateway custom config
+
+gateway:
+  jwt:
+    secret: ${JWT_SECRET:ZwNvbW1lcmNlLXBsYXRmb3JtLXN1cGVyLXNlY3JldC1rZXitdGhhdC1pcy1sb25nLWVub3VnaC1mb3ItaG1hYy1zaGEyNTY==}
+    expiration-ms: 3600000
+  auth:
+    excluded-paths: /api/auth/login,/api/auth/register,/api/auth/refresh,/api/products/**,/api/search/**,/api/categories/**,/api/pricing/calculator
+
+
+# Actuator
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,circuitbreakers,ratelimiters,gateway
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+  metrics:
+    tags:
+      application: api-gateway
+
+
+# Logging
+
+logging:
+  level:
+    root: INFO
+    com.ecommerce.api_gateway: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    io.github.resilience4j: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{correlationId}] %-5level %logger{36} - %msg%n"
