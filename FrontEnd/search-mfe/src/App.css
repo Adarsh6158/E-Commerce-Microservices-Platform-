@@ -1,0 +1,223 @@
+/* — Search header — */
+.search-header { margin-bottom: 24px; }
+.search-header__title { font-size: 22px; font-weight: 700; color: #1a1a2e; margin: 0 0 4px; }
+.search-header__subtitle { color: #8e9aaf; font-size: 14px; margin: 0; }
+
+/* — Search form — */
+.search-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  background: #fff;
+  padding: 16px 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.search-input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 14px;
+  flex: 1;
+  min-width: 160px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus { border-color: #e94560; }
+
+.search-input--brand { max-width: 140px; }
+.search-input--category { max-width: 180px; cursor: pointer; background: #fff; }
+.search-input--price { max-width: 100px; }
+
+.search-input--brand { flex: 0 0 130px; min-width: 100px; }
+.search-input--price { flex: 0 0 90px; min-width: 70px; }
+
+.search-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  background: #1a1a2e;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.search-btn:hover { background: #16213e; }
+
+/* — Search Input Wrapper (for suggestions) — */
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 160px;
+}
+
+.search-input-wrapper .search-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* — Suggestions Dropdown — */
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 100;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.suggestions-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.suggestions-dropdown__item:hover,
+.suggestions-dropdown__item--active {
+  background: #f7f8fa;
+}
+
+.suggestions-dropdown__icon {
+  font-size: 14px;
+  color: #8e9aaf;
+  flex-shrink: 0;
+}
+
+.suggestions-dropdown__name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.suggestions-dropdown__brand {
+  font-size: 12px;
+  color: #8e9aaf;
+  background: #f0f0f5;
+  padding: 2px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* — Error — */
+.search-error {
+  color: #c0392b;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* — No results — */
+.search-empty {
+  text-align: center;
+  padding: 48px 20px;
+  color: #8e9aaf;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.search-empty__icon { font-size: 40px; margin-bottom: 12px; }
+.search-empty__text { font-size: 15px; margin: 0; }
+
+/* — Results grid — */
+.search-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* — Result card — */
+.search-card {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.search-card__image {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-card__image-icon {
+  font-size: 36px;
+  color: rgba(255,255,255,0.9);
+  font-weight: 800;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.search-card__body { padding: 14px 16px; }
+.search-card__name { font-size: 15px; font-weight: 600; color: #2d3748; margin: 0 0 4px; }
+.search-card__brand { font-size: 13px; color: #8e9aaf; margin: 0 0 8px; }
+.search-card__price { font-weight: 700; font-size: 16px; color: #1a1a2e; margin: 0 0 6px; }
+.search-card__desc { font-size: 12px; color: #8e9aaf; margin: 0; line-height: 1.5; }
+
+/* — Loading — */
+.search-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #e94560;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.search-loading__text {
+  color: #8e9aaf;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+/* — Responsive — */
+@media (max-width: 768px) {
+  .search-form { flex-direction: column; }
+  .search-input--brand,
+  .search-input--price { flex: 1; min-width: 100%; }
+  .search-results { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  .search-results { grid-template-columns: 1fr; }
+}
+
+/* — Recommendations — */
+.recommendations-section { margin-top: 32px; }
+.recommendations-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin: 0 0 4px; }
+.recommendations-subtitle { color: #8e9aaf; font-size: 14px; margin: 0 0 16px; }
+.recommendations-section .search-card { cursor: pointer; transition: transform 0.15s ease; }
+.recommendations-section .search-card:hover { transform: translateY(-4px); }
