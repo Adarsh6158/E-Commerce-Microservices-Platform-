@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  r2dbc:
+    url: r2dbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:auth_db}
+    username: ${POSTGRES_USER:auth_user}
+    password: ${POSTGRES_PASSWORD:auth_secret_pwd}
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: 30m
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2000ms
+
+auth:
+  jwt:
+    secret: ${JWT_SECRET:ZwNvbW1lcmNlLXBsYXRmb3JtLXN1cGVyLXNlY3JldC1rZXitdGhhdC1pcy1sb25nLWVub3VnaC1mb3ItaG1hYy1zaGEyNTY==}
+    access-token-expiration-ms: 3600000
+    refresh-token-expiration-ms: 604800000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.ecommerce.auth_service: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{correlationId:-}] %-5level %logger{36} - %msg%n"
