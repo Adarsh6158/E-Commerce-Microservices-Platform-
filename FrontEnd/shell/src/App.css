@@ -1,0 +1,88 @@
+/* — Shell App Styles — 
+   Only shell-specific styles and loading/error fallbacks.
+   MFE-specific styles are loaded from each MFE via Module Federation.
+*/
+
+/* — Global loading fallback — */
+.loading-fallback {
+  padding: var(--space-2xl, 48px);
+  text-align: center;
+  color: var(--color-text-muted, #8e9aaf);
+}
+
+/* — Spinner (shared across fallbacks) — */
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #e94560;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* — Product page fallback — */
+.products-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+}
+
+.products-loading__text { color: #8e9aaf; margin-top: 16px; font-size: 15px; }
+
+/* — Search page fallback — */
+.search-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px;
+}
+
+.search-loading__text { color: #8e9aaf; margin-top: 12px; font-size: 14px; }
+
+/* — Cart page fallback & centered states — */
+.cart-centered { text-align: center; padding: 60px 20px; }
+.cart-centered__icon { font-size: 48px; margin-bottom: 12px; }
+.cart-centered__title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin: 0 0 8px; }
+.cart-centered__text { color: #8e9aaf; font-size: 14px; margin-bottom: 20px; }
+
+/* — Order page fallback — */
+.orders-loading { text-align: center; padding: 60px; color: #8e9aaf; font-size: 15px; }
+
+/* — Admin page fallback — */
+.panel-loading { color: #8e9aaf; font-size: 14px; text-align: center; padding: 48px; }
+
+/* — Error boundary — */
+.error-boundary {
+  text-align: center;
+  padding: 48px 20px;
+  color: #c0392b;
+}
+
+.error-boundary__retry {
+  margin-top: 16px;
+  padding: 8px 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.error-boundary__retry:hover { background: #f5f7fa; }
+
+/* — Shared links — */
+.link-signin {
+  color: #e94560;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.link-signin:hover { opacity: 0.8; }

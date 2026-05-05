@@ -1,0 +1,29 @@
+.error-boundary {
+  padding: var(--space-2xl);
+  text-align: center;
+  color: var(--color-danger);
+}
+
+.error-boundary h3 {
+  margin: 0 0 var(--space-sm);
+}
+
+.error-boundary p {
+  font-size: var(--font-size-base);
+  margin-top: var(--space-sm);
+}
+
+.error-boundary__retry {
+  margin-top: var(--space-base);
+  padding: var(--space-sm) var(--space-base);
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--font-size-base);
+  transition: background 0.2s;
+}
+
+.error-boundary__retry:hover {
+  background: var(--color-bg);
+}
