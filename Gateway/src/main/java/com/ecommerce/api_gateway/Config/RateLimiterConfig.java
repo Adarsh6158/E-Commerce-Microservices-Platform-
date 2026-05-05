@@ -1,0 +1,39 @@
+package com.ecommerce.api_gateway.Config;
+
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import reactor.core.publisher.Mono;
+
+@Configuration
+public class RateLimiterConfig {
+
+    @Bean
+    @Primary
+    public KeyResolver ipKeyResolver() {
+        return exchange -> {
+            String ip = exchange.getRequest().getRemoteAddress() != null
+                    ? exchange.getRequest().getRemoteAddress().getAddress().getHostAddress()
+                    : "unknown";
+            return Mono.just(ip);
+        };
+    }
+
+    @Bean
+    public KeyResolver userKeyResolver() {
+        return exchange -> {
+            // Prefer userId from JWT (set by AuthenticationFilter), fall back to IP
+            String userId = exchange.getAttribute("userId");
+            if (userId != null) {
+                return Mono.just(userId);
+            }
+
+            String ip = exchange.getRequest().getRemoteAddress() != null
+                    ? exchange.getRequest().getRemoteAddress().getAddress().getHostAddress()
+                    : "unknown";
+
+            return Mono.just(ip);
+        };
+    }
+}
