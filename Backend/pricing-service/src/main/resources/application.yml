@@ -1,0 +1,26 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: pricing-service
+
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_USER:pricing_user}:${MONGO_PASSWORD:pricing_secret_pwd}@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/${MONGO_DB:pricing_db}?authSource=admin
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.ecommerce.pricing_service: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{correlationId}] %-5level %logger{36} - %msg%n"
