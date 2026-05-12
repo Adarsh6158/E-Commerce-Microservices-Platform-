@@ -68,7 +68,16 @@ export function Layout({ children }) {
       >
         <div className="sf-header__inner">
           {}
-          <Link to="/" className="sf-header__logo">
+          <a
+            href="/"
+            className="sf-header__logo"
+            onClick={(e) => {
+              if (location.pathname === '/' && !location.search) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+          >
             <motion.span
               className="sf-header__logo-icon"
               whileHover={{ rotate: [0, -10, 10, 0] }}
@@ -77,7 +86,7 @@ export function Layout({ children }) {
               🛍️
             </motion.span>
             <span className="sf-header__logo-text">ShopFlux</span>
-          </Link>
+          </a>
           {}
           <button
             className="sf-header__hamburger"
