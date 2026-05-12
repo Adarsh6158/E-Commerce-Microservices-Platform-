@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { cardGradient } from '../utils/gradients';
 export function ProductCard({ product, onClick, onAddToCart, addingToCart }) {
   const imgSrc = product.imageUrl || (product.imageUrls && product.imageUrls[0]);
   const [imgError, setImgError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isImageHovered, setIsImageHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const imageContainerRef = useRef(null);
+
   const showFallback = !imgSrc || imgError;
+
+  const handleMouseMove = (e) => {
+    if (!imageContainerRef.current) return;
+    const { left, top, width, height } = imageContainerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setMousePos({ x, y });
+  };
+
   return (
     <motion.article
       className="product-card"
@@ -19,7 +32,14 @@ export function ProductCard({ product, onClick, onAddToCart, addingToCart }) {
     >
       <div
         className="product-card__image"
-        style={showFallback ? { background: cardGradient(product.id) } : {}}
+        style={{
+          ...(showFallback ? { background: cardGradient(product.id) } : {}),
+          cursor: isImageHovered ? 'crosshair' : 'zoom-in'
+        }}
+        ref={imageContainerRef}
+        onMouseEnter={() => setIsImageHovered(true)}
+        onMouseLeave={() => setIsImageHovered(false)}
+        onMouseMove={handleMouseMove}
       >
         {!showFallback ? (
           <motion.img
@@ -28,7 +48,10 @@ export function ProductCard({ product, onClick, onAddToCart, addingToCart }) {
             className="product-card__img"
             loading="lazy"
             onError={() => setImgError(true)}
-            animate={{ scale: isHovered ? 1.08 : 1 }}
+            animate={{ scale: isImageHovered ? 1.9 : 1 }}
+            style={{
+              transformOrigin: `${mousePos.x}% ${mousePos.y}%`
+            }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           />
         ) : (

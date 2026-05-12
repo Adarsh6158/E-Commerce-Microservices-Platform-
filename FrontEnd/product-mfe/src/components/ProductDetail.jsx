@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { cardGradient } from '../utils/gradients';
 import { ReviewSection } from './ReviewSection';
 
@@ -8,6 +9,17 @@ function ProductImage({ product }) {
     : product.imageUrl ? [product.imageUrl] : [];
   const [idx, setIdx] = useState(0);
   const [imgError, setImgError] = useState(false);
+  const [isImageHovered, setIsImageHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const imageContainerRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!imageContainerRef.current) return;
+    const { left, top, width, height } = imageContainerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setMousePos({ x, y });
+  };
 
   if (images.length === 0 || imgError) {
     return (
@@ -19,7 +31,23 @@ function ProductImage({ product }) {
 
   return (
     <div className="detail-image">
-      <img src={images[idx]} alt={product.name} className="detail-image__img" onError={() => setImgError(true)} />
+      <div
+        style={{ width: '100%', height: '300px', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: isImageHovered ? 'crosshair' : 'zoom-in' }}
+        ref={imageContainerRef}
+        onMouseEnter={() => setIsImageHovered(true)}
+        onMouseLeave={() => setIsImageHovered(false)}
+        onMouseMove={handleMouseMove}
+      >
+        <motion.img
+          src={images[idx]}
+          alt={product.name}
+          className="detail-image__img"
+          onError={() => setImgError(true)}
+          animate={{ scale: isImageHovered ? 1.9 : 1 }}
+          style={{ transformOrigin: `${mousePos.x}% ${mousePos.y}%` }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        />
+      </div>
       {images.length > 1 && (
         <div className="detail-image__thumbs">
           {images.map((src, i) => (
