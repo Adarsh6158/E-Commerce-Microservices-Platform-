@@ -1,0 +1,24 @@
+{
+  "name": "@shopflux/design-system",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./tailwind-preset": "./tailwind-preset.js",
+    "./tokens": "./tokens/index.js",
+    "./motion": "./motion/index.js",
+    "./hooks": "./hooks/index.js",
+    "./components": "./components/index.js",
+    "./styles": "./styles/index.css"
+  },
+  "dependencies": {
+    "framer-motion": "^11.0.0",
+    "clsx": "^2.1.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}
