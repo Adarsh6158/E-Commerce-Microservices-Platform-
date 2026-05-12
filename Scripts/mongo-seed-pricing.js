@@ -1,10 +1,8 @@
-// ===========================================================
-// mongo-seed-pricing.js – Seeds pricing_db with pricing rules.
-// Idempotent (upserts by name).
+// mongo-seed-pricing.js – Seeds pricing_db with pricing rules
+// Idempotent (upserts by name)
 // Run against: pricing_db
-// ===========================================================
 
-// —————— Helper: get category IDs from catalog_db ——————
+// Helper: get category IDs from catalog_db 
 // Since pricing rules reference categoryId/productId from catalog,
 // and we don't have cross-db joins in Mongo, we use category slugs
 // as a naming convention and store actual ObjectId strings.
@@ -63,8 +61,8 @@ const rulesData = [
     conditions: {},
     discount: {},
     tiers: [
-      { minQuantity: 1,  maxQuantity: 5,   pricePerUnit: NumberDecimal("0") },
-      { minQuantity: 6,  maxQuantity: 12,  pricePerUnit: NumberDecimal("-1.00") },
+      { minQuantity: 1, maxQuantity: 5, pricePerUnit: NumberDecimal("0") },
+      { minQuantity: 6, maxQuantity: 12, pricePerUnit: NumberDecimal("-1.00") },
       { minQuantity: 13, maxQuantity: 100, pricePerUnit: NumberDecimal("-2.00") },
     ],
     validFrom: new Date("2025-01-01"),
@@ -104,7 +102,7 @@ const rulesData = [
     validUntil: new Date("2027-01-31"),
   },
 
-  // — Product-specific rules (use SKU to find productId) —
+  // Product-specific rules (use SKU to find productId)
   {
     name: "MacBook Pro Bundle Discount",
     ruleType: "PERCENTAGE_DISCOUNT",
@@ -135,8 +133,8 @@ const rulesData = [
     conditions: {},
     discount: {},
     tiers: [
-      { minQuantity: 1, maxQuantity: 1,   pricePerUnit: NumberDecimal("169.99") },
-      { minQuantity: 2, maxQuantity: 3,   pricePerUnit: NumberDecimal("159.99") },
+      { minQuantity: 1, maxQuantity: 1, pricePerUnit: NumberDecimal("169.99") },
+      { minQuantity: 2, maxQuantity: 3, pricePerUnit: NumberDecimal("159.99") },
       { minQuantity: 4, maxQuantity: 100, pricePerUnit: NumberDecimal("149.99") },
     ],
     validFrom: new Date("2025-01-01"),
@@ -155,7 +153,7 @@ const rulesData = [
   },
 ];
 
-// — Resolve category / product IDs from catalog_db ————————
+// Resolve category / product IDs from catalog_db
 // We read from the sibling catalog_db to get real ObjectId strings.
 const catalogDb = db.getSiblingDB("catalog_db");
 const catMap = {};
