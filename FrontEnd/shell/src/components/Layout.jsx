@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../lib/auth';
 import { onMfeEvent, MfeEvents } from '../lib/events';
 import './Layout.css';
-
 export function Layout({ children }) {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
-
-  // Fetch cart count
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   useEffect(() => {
     const loadCartCount = async () => {
       const token = localStorage.getItem('access_token');
@@ -20,7 +23,6 @@ export function Layout({ children }) {
         setCartCount(0);
         return;
       }
-
       try {
         const res = await fetch('http://localhost:8080/api/cart', {
           headers: {
@@ -28,24 +30,19 @@ export function Layout({ children }) {
             Authorization: `Bearer ${token}`,
           },
         });
-
         if (res.ok) {
           const data = await res.json();
           setCartCount(data?.items?.length || 0);
         }
       } catch {
-        // ignore
       }
     };
-
     loadCartCount();
     return onMfeEvent(MfeEvents.CART_UPDATED, loadCartCount);
   }, [isAuthenticated]);
-
   const isActive = (path) =>
     location.pathname === path ||
     (path !== '/' && location.pathname.startsWith(path));
-
   const navItems = [
     { to: '/', label: 'Products', icon: '📦' },
     { to: '/search', label: 'Search', icon: '🔍' },
@@ -60,135 +57,185 @@ export function Layout({ children }) {
       ? [{ to: '/admin', label: 'Admin', icon: '⚙️' }]
       : []),
   ];
-
   return (
-    <div>
-      <header className="header">
-        <div className="header__inner">
-          <Link to="/" className="header__logo">
-            <span className="header__logo-icon">🛍️</span>
-            <span className="header__logo-text">ShopFlux</span>
+    <div className="sf-app">
+      {}
+      <motion.header
+        className={`sf-header ${scrolled ? 'sf-header--scrolled' : ''}`}
+        initial={{ y: -80 }}
+        animate={{ y: 0 }}
+        transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+      >
+        <div className="sf-header__inner">
+          {}
+          <Link to="/" className="sf-header__logo">
+            <motion.span
+              className="sf-header__logo-icon"
+              whileHover={{ rotate: [0, -10, 10, 0] }}
+              transition={{ duration: 0.4 }}
+            >
+              🛍️
+            </motion.span>
+            <span className="sf-header__logo-text">ShopFlux</span>
           </Link>
-
+          {}
           <button
-            className="header__hamburger"
+            className="sf-header__hamburger"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
-            {menuOpen ? '✖' : '☰'}
+            <motion.span
+              animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 6 : 0 }}
+              className="sf-hamburger-line"
+            />
+            <motion.span
+              animate={{ opacity: menuOpen ? 0 : 1, scaleX: menuOpen ? 0 : 1 }}
+              className="sf-hamburger-line"
+            />
+            <motion.span
+              animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -6 : 0 }}
+              className="sf-hamburger-line"
+            />
           </button>
-
-          <nav className={`header__nav${menuOpen ? ' header__nav--open' : ''}`}>
+          {}
+          <nav className={`sf-header__nav ${menuOpen ? 'sf-header__nav--open' : ''}`}>
             {navItems.map(({ to, label, icon, badge }) => (
               <Link
                 key={to}
                 to={to}
-                className={`nav-link ${isActive(to) ? 'nav-link--active' : ''}`}
+                className={`sf-nav-link ${isActive(to) ? 'sf-nav-link--active' : ''}`}
                 onClick={() => setMenuOpen(false)}
               >
-                <span className="nav-link__icon">{icon}</span>
-                {label}
+                {isActive(to) && (
+                  <motion.span
+                    className="sf-nav-link__indicator"
+                    layoutId="nav-indicator"
+                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                  />
+                )}
+                <span className="sf-nav-link__icon">{icon}</span>
+                <span className="sf-nav-link__label">{label}</span>
                 {badge != null && (
-                  <span className="nav-link__badge">{badge}</span>
+                  <motion.span
+                    className="sf-nav-link__badge"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                  >
+                    {badge}
+                  </motion.span>
                 )}
               </Link>
             ))}
           </nav>
-
-          <div className="header__actions">
+          {}
+          <div className="sf-header__actions">
             {isAuthenticated ? (
               <>
-                <Link to="/profile" className="avatar-link">
+                <Link to="/profile" className="sf-avatar-link">
                   {user?.profileImageUrl ? (
                     <img
                       src={user.profileImageUrl}
                       alt=""
-                      className="avatar avatar--img"
+                      className="sf-avatar sf-avatar--img"
                     />
                   ) : (
-                    <div className="avatar">
+                    <motion.div
+                      className="sf-avatar"
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
                       {(user?.firstName || user?.email || 'U')[0].toUpperCase()}
-                    </div>
+                    </motion.div>
                   )}
                 </Link>
-
-                <Link to="/profile" className="header__username">
+                <Link to="/profile" className="sf-header__username">
                   {user?.firstName || user?.email}
                 </Link>
-
-                <button
+                <motion.button
                   onClick={() => {
                     logout();
                     navigate('/');
                   }}
-                  className="btn-logout"
+                  className="sf-btn-logout"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   Sign out
-                </button>
+                </motion.button>
               </>
             ) : (
-              <Link to="/login" className="btn-signin">
-                Sign in
-              </Link>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link to="/login" className="sf-btn-signin">
+                  Sign in
+                </Link>
+              </motion.div>
             )}
           </div>
         </div>
-      </header>
-
-      <main className="main-content">{children}</main>
-
-      <footer className="footer">
-        <div className="footer__inner">
-          <div className="footer__grid">
-            <div className="footer__brand">
-              <div className="footer__brand-name">🛍️ ShopFlux</div>
-              <p className="footer__brand-desc">
+      </motion.header>
+      {}
+      <main className="sf-main">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname.split('/')[1] || 'home'}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
+      </main>
+      {}
+      <footer className="sf-footer">
+        <div className="sf-footer__inner">
+          <div className="sf-footer__grid">
+            <div className="sf-footer__brand">
+              <div className="sf-footer__brand-name">🛍️ ShopFlux</div>
+              <p className="sf-footer__brand-desc">
                 Your one-stop destination for quality products at great prices.
                 Fast shipping and excellent customer service.
               </p>
             </div>
-
             <div>
-              <h4 className="footer__col-title">Shop</h4>
-              <ul className="footer__links">
+              <h4 className="sf-footer__col-title">Shop</h4>
+              <ul className="sf-footer__links">
                 <li><Link to="/">All Products</Link></li>
                 <li><Link to="/search">Search</Link></li>
                 <li><Link to="/cart">Cart</Link></li>
               </ul>
             </div>
-
             <div>
-              <h4 className="footer__col-title">Account</h4>
-              <ul className="footer__links">
+              <h4 className="sf-footer__col-title">Account</h4>
+              <ul className="sf-footer__links">
                 <li><Link to="/login">Sign In</Link></li>
                 <li><Link to="/orders">Orders</Link></li>
               </ul>
             </div>
-
             <div>
-              <h4 className="footer__col-title">Support</h4>
-              <ul className="footer__links">
+              <h4 className="sf-footer__col-title">Support</h4>
+              <ul className="sf-footer__links">
                 <li><a href="#">Help Center</a></li>
                 <li><a href="#">Shipping Info</a></li>
                 <li><a href="#">Returns</a></li>
               </ul>
             </div>
           </div>
-
-          <div className="footer__bottom">
+          <div className="sf-footer__bottom">
             <span>© 2026 ShopFlux. All rights reserved.</span>
-            <div className="footer__social">
-            <a href="https://twitter.com/your_username" target="_blank" aria-label="Twitter">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M22.46 6c-.77.35-1.5.6-2.3.7a3.92 3.92 0 0 0 1.7-2.2 7.72 7.72 0 0 1-2.5 1A3.9 3.9 0 0 0 16.1 4c-2.2 0-4 1.8-4 4 0 .3 0 .6.1.9A11.1 11.1 0 0 1 3 5.1a4 4 0 0 0-.5 2c0 1.4.7 2.6 1.8 3.3a4 4 0 0 1-1.8-.5v.1c0 2 1.4 3.6 3.2 4a4 4 0 0 1-1.8.1c.5 1.6 2 2.7 3.7 2.8A7.8 7.8 0 0 1 2 19.5 11 11 0 0 0 8 21c7.2 0 11.2-6 11.2-11.2v-.5c.8-.6 1.5-1.3 2-2.3z"/>
-            </svg>
-            </a>
-
-            <a href="https://github.com/your_username" target="_blank" aria-label="GitHub">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 .5C5.7.5.7 5.6.7 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 .1 2-.7 2.4-1.1.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.2 2.7 18.2 3 18.2 3c.6 1.6.2 2.8.1 3.1.8.9 1.2 2 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1 .8 2v3c0 .3.2.7.8.6A11.3 11.3 0 0 0 23.3 12c0-6.4-5-11.5-11.3-11.5z"/>
-              </svg>
-            </a>
+            <div className="sf-footer__social">
+              <a href="https://twitter.com/your_username" target="_blank" aria-label="Twitter">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M22.46 6c-.77.35-1.5.6-2.3.7a3.92 3.92 0 0 0 1.7-2.2 7.72 7.72 0 0 1-2.5 1A3.9 3.9 0 0 0 16.1 4c-2.2 0-4 1.8-4 4 0 .3 0 .6.1.9A11.1 11.1 0 0 1 3 5.1a4 4 0 0 0-.5 2c0 1.4.7 2.6 1.8 3.3a4 4 0 0 1-1.8-.5v.1c0 2 1.4 3.6 3.2 4a4 4 0 0 1-1.8.1c.5 1.6 2 2.7 3.7 2.8A7.8 7.8 0 0 1 2 19.5 11 11 0 0 0 8 21c7.2 0 11.2-6 11.2-11.2v-.5c.8-.6 1.5-1.3 2-2.3z"/>
+                </svg>
+              </a>
+              <a href="https://github.com/your_username" target="_blank" aria-label="GitHub">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 .5C5.7.5.7 5.6.7 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 .1 2-.7 2.4-1.1.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.2 2.7 18.2 3 18.2 3c.6 1.6.2 2.8.1 3.1.8.9 1.2 2 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1 .8 2v3c0 .3.2.7.8.6A11.3 11.3 0 0 0 23.3 12c0-6.4-5-11.5-11.3-11.5z"/>
+                </svg>
+              </a>
             </div>
           </div>
         </div>
