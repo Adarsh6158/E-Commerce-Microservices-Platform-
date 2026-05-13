@@ -1,0 +1,38 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: analytics-service
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://pricing_user:pricing_secret_pwd@localhost:27017/analytics_db?authSource=admin}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: analytics-service
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      properties:
+        isolation.level: read_committed
+        spring.json.trusted.packages: "*"
+    listener:
+      ack-mode: manual
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: analytics-service
+
+logging:
+  level:
+    com.ecommerce.analytics_service: DEBUG
+    org.springframework.data.mongodb: INFO
+    org.springframework.kafka: INFO
