@@ -44,7 +44,25 @@ const BANNERS = [
     subtitle: 'Premium skincare & makeup from ₹199',
     badge: 'TOP PICKS',
     accent: 'hsl(320, 80%, 85%)',
-    categoryName: 'Beauty & Health',
+    categoryName: 'Beauty',
+  },
+  {
+    id: 6,
+    gradient: 'linear-gradient(135deg, hsl(36, 60%, 12%) 0%, hsl(40, 80%, 30%) 50%, hsl(45, 90%, 45%) 100%)',
+    title: 'Luxury Watches',
+    subtitle: 'Premium timepieces from Rolex, Longines & more',
+    badge: 'EXCLUSIVE',
+    accent: 'hsl(45, 100%, 80%)',
+    categoryName: 'Watches',
+  },
+  {
+    id: 7,
+    gradient: 'linear-gradient(135deg, hsl(160, 60%, 20%) 0%, hsl(165, 70%, 40%) 100%)',
+    title: 'Health & Wellness',
+    subtitle: 'Vitamins, supplements & medicines',
+    badge: 'IMMUNITY',
+    accent: 'hsl(165, 100%, 80%)',
+    categoryName: 'Health & Medicines',
   },
 ];
 const slideVariants = {
@@ -87,13 +105,13 @@ export function HeroCarousel({ categories, onSelectCategory }) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {}
+      { }
       <motion.div
         className="hero-carousel__bg"
         animate={{ background: banner.gradient }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       />
-      {}
+      { }
       <div className="hero-carousel__orbs">
         <motion.div
           className="hero-carousel__orb hero-carousel__orb--1"
@@ -106,7 +124,7 @@ export function HeroCarousel({ categories, onSelectCategory }) {
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         />
       </div>
-      {}
+      { }
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={current}
@@ -154,12 +172,12 @@ export function HeroCarousel({ categories, onSelectCategory }) {
           >
             Shop Now
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ marginLeft: 6 }}>
-              <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </motion.button>
         </motion.div>
       </AnimatePresence>
-      {}
+      { }
       <motion.button
         className="hero-carousel__arrow hero-carousel__arrow--left"
         onClick={() => goTo(current - 1, -1)}
@@ -178,7 +196,7 @@ export function HeroCarousel({ categories, onSelectCategory }) {
       >
         ›
       </motion.button>
-      {}
+      { }
       <div className="hero-carousel__dots">
         {BANNERS.map((_, i) => (
           <motion.button

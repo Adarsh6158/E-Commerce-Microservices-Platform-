@@ -7,9 +7,11 @@ const CATEGORY_ICONS = {
   'Home & Garden': '🪴',
   'Books': '📚',
   'Sports & Outdoors': '⚽',
-  'Beauty & Health': '💄',
+  'Beauty': '💄',
   'Toys & Games': '🧸',
-  'Groceries': '🧺',
+  'Watches': '⌚',
+  'Health & Medicines': '💊',
+  'Groceries': '🧺'
 };
 const DEFAULT_ICON = '🔥';
 export function CategoryFilterBar({ categories, activeCategoryId, onSelectCategory }) {
