@@ -24,7 +24,7 @@ export function OrderDetail({ order, payment, notifications, onBack, onRefresh, 
         <StatusTimeline status={order.status} />
 
         <p className="order-detail__total">
-          <strong>Total:</strong> ${order.totalAmount}
+          <strong>Total:</strong> ₹{order.totalAmount}
         </p>
 
         {order.correlationId && (
@@ -78,8 +78,8 @@ export function OrderDetail({ order, payment, notifications, onBack, onRefresh, 
                   <tr key={i}>
                     <td>{item.productName || item.name || '-'}</td>
                     <td>{item.quantity}</td>
-                    <td>${Number(item.unitPrice).toFixed(2)}</td>
-                    <td>${(item.quantity * item.unitPrice).toFixed(2)}</td>
+                    <td>₹{Number(item.unitPrice).toFixed(2)}</td>
+                    <td>₹{(item.quantity * item.unitPrice).toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>

@@ -33,7 +33,7 @@ export function ProductsPanel() {
               <td>{p.name}</td>
               <td>{p.sku}</td>
               <td>{p.brand}</td>
-              <td>${p.basePrice}</td>
+              <td>₹{p.basePrice}</td>
               <td>{p.active ? '✓' : '✗'}</td>
             </tr>
           ))}

@@ -1,15 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 const CATEGORY_ICONS = {
-  'Electronics':     '🖥️',
-  'Clothing':        '👕',
-  'Home & Kitchen':  '🏠',
-  'Home & Garden':   '🪴',
-  'Books':           '📚',
+  'Electronics': '🖥️',
+  'Clothing': '👕',
+  'Home & Kitchen': '🏠',
+  'Home & Garden': '🪴',
+  'Books': '📚',
   'Sports & Outdoors': '⚽',
   'Beauty & Health': '💄',
-  'Toys & Games':    '🧸',
-  'Groceries':       '🛒',
+  'Toys & Games': '🧸',
+  'Groceries': '🧺',
 };
 const DEFAULT_ICON = '🔥';
 export function CategoryFilterBar({ categories, activeCategoryId, onSelectCategory }) {

@@ -221,3 +221,4 @@
 .recommendations-subtitle { color: #8e9aaf; font-size: 14px; margin: 0 0 16px; }
 .recommendations-section .search-card { cursor: pointer; transition: transform 0.15s ease; }
 .recommendations-section .search-card:hover { transform: translateY(-4px); }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }

@@ -170,3 +170,4 @@
   .product-card__image{height:130px;}
   .detail-meta{grid-template-columns:1fr 1fr;}
 }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }

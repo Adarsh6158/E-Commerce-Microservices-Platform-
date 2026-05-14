@@ -16,7 +16,7 @@ export function CartItem({ item, isUpdating, onUpdateQty, onRemove }) {
       <div className="cart-item__info">
         <h4 className="cart-item__name">{item.name}</h4>
         <p className="cart-item__price-each">
-          ${Number(item.unitPrice).toFixed(2)} each
+          ₹{Number(item.unitPrice).toFixed(2)} each
         </p>
       </div>
 
@@ -54,7 +54,7 @@ export function CartItem({ item, isUpdating, onUpdateQty, onRemove }) {
 
       <div className="cart-item__total">
         <p className="cart-item__total-price">
-          ${(item.unitPrice * item.quantity).toFixed(2)}
+          ₹{(item.unitPrice * item.quantity).toFixed(2)}
         </p>
         <button
           onClick={() => onRemove(item.productId, item.name)}

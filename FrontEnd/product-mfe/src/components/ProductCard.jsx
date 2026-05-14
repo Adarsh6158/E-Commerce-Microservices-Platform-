@@ -2,8 +2,10 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { cardGradient } from '../utils/gradients';
 export function ProductCard({ product, onClick, onAddToCart, addingToCart }) {
-  const imgSrc = product.imageUrl || (product.imageUrls && product.imageUrls[0]);
+  const imgSrc = product.image || product.thumbnail || (product.galleryImages && product.galleryImages[0]);
+  const altText = product.altText || product.name;
   const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isImageHovered, setIsImageHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
@@ -41,14 +43,19 @@ export function ProductCard({ product, onClick, onAddToCart, addingToCart }) {
         onMouseLeave={() => setIsImageHovered(false)}
         onMouseMove={handleMouseMove}
       >
+        {!showFallback && !imgLoaded && (
+          <div className="skeleton-loader" style={{ position: 'absolute', inset: 0, background: '#f1f5f9', animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
+        )}
         {!showFallback ? (
           <motion.img
             src={imgSrc}
-            alt={product.name}
+            alt={altText}
             className="product-card__img"
             loading="lazy"
+            onLoad={() => setImgLoaded(true)}
             onError={() => setImgError(true)}
-            animate={{ scale: isImageHovered ? 1.9 : 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ scale: isImageHovered ? 1.9 : 1, opacity: imgLoaded ? 1 : 0 }}
             style={{
               transformOrigin: `${mousePos.x}% ${mousePos.y}%`
             }}
@@ -71,7 +78,7 @@ export function ProductCard({ product, onClick, onAddToCart, addingToCart }) {
       </div>
       <div className="product-card__body">
         <h3 className="product-card__name">{product.name}</h3>
-        <p className="product-card__price">${Number(product.basePrice).toFixed(2)}</p>
+        <p className="product-card__price">₹{Number(product.basePrice).toFixed(2)}</p>
         <p className="product-card__offer">
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none" style={{ verticalAlign: -1 }}>
             <path d="M2 8l4 4 8-8" stroke="hsl(152, 56%, 46%)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

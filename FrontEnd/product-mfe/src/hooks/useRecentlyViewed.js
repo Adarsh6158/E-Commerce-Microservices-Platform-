@@ -41,7 +41,7 @@ export function useRecentlyViewed() {
           id: product.id,
           name: product.name,
           basePrice: product.basePrice,
-          imageUrl: product.imageUrl || (product.imageUrls && product.imageUrls[0]) || ''
+          image: product.image || product.thumbnail || (product.galleryImages && product.galleryImages[0]) || ''
         },
         ...filtered,
       ].slice(0, MAX_ITEMS);

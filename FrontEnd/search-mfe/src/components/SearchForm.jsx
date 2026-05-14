@@ -78,7 +78,7 @@ export function SearchForm({
       <input
         value={filters.minPrice}
         onChange={(e) => onFiltersChange({ ...filters, minPrice: e.target.value })}
-        placeholder="Min $"
+        placeholder="Min ₹"
         type="number"
         className="search-input search-input--price"
         aria-label="Minimum price"
@@ -87,7 +87,7 @@ export function SearchForm({
       <input
         value={filters.maxPrice}
         onChange={(e) => onFiltersChange({ ...filters, maxPrice: e.target.value })}
-        placeholder="Max $"
+        placeholder="Max ₹"
         type="number"
         className="search-input search-input--price"
         aria-label="Maximum price"

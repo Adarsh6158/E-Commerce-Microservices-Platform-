@@ -4,11 +4,13 @@ import { cardGradient } from '../utils/gradients';
 import { ReviewSection } from './ReviewSection';
 
 function ProductImage({ product }) {
-  const images = product.imageUrls?.length > 0
-    ? product.imageUrls
-    : product.imageUrl ? [product.imageUrl] : [];
+  const images = product.galleryImages?.length > 0
+    ? product.galleryImages
+    : product.image ? [product.image] : [];
+  const altText = product.altText || product.name;
   const [idx, setIdx] = useState(0);
   const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const [isImageHovered, setIsImageHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const imageContainerRef = useRef(null);
@@ -38,12 +40,18 @@ function ProductImage({ product }) {
         onMouseLeave={() => setIsImageHovered(false)}
         onMouseMove={handleMouseMove}
       >
+        {!imgLoaded && (
+          <div className="skeleton-loader" style={{ position: 'absolute', inset: 0, background: '#f1f5f9', animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
+        )}
         <motion.img
           src={images[idx]}
-          alt={product.name}
+          alt={altText}
           className="detail-image__img"
+          loading="lazy"
+          onLoad={() => setImgLoaded(true)}
           onError={() => setImgError(true)}
-          animate={{ scale: isImageHovered ? 1.9 : 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ scale: isImageHovered ? 1.9 : 1, opacity: imgLoaded ? 1 : 0 }}
           style={{ transformOrigin: `${mousePos.x}% ${mousePos.y}%` }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         />
@@ -54,9 +62,10 @@ function ProductImage({ product }) {
             <img
               key={i}
               src={src}
-              alt={`${product.name} ${i + 1}`}
+              alt={`${altText} ${i + 1}`}
+              loading="lazy"
               className={`detail-image__thumb ${i === idx ? 'detail-image__thumb--active' : ''}`}
-              onClick={() => setIdx(i)}
+              onClick={() => { setIdx(i); setImgLoaded(false); }}
             />
           ))}
         </div>
@@ -89,12 +98,12 @@ export function ProductDetail({ product, price, reviews, rating, addingToCart, o
             </div>
             <div className="detail-meta__item">
               <span className="detail-meta__label">Base Price</span>
-              <span className="detail-meta__value">${Number(product.basePrice).toFixed(2)}</span>
+              <span className="detail-meta__value">₹{Number(product.basePrice).toFixed(2)}</span>
             </div>
             {price && (
               <div className="detail-meta__item">
                 <span className="detail-meta__label">Your Price</span>
-                <span className="detail-meta__value detail-meta__value--highlight">${Number(finalPrice).toFixed(2)}</span>
+                <span className="detail-meta__value detail-meta__value--highlight">₹{Number(finalPrice).toFixed(2)}</span>
               </div>
             )}
           </div>

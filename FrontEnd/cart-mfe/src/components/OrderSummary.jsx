@@ -7,7 +7,7 @@ export function OrderSummary({ total, onPlaceOrder, placingOrder }) {
 
       <div className="summary-row">
         <span>Subtotal</span>
-        <span>${total.toFixed(2)}</span>
+        <span>₹{total.toFixed(2)}</span>
       </div>
 
       <div className="summary-row">
@@ -17,7 +17,7 @@ export function OrderSummary({ total, onPlaceOrder, placingOrder }) {
 
       <div className="summary-row summary-row--total">
         <span>Total</span>
-        <span>${total.toFixed(2)}</span>
+        <span>₹{total.toFixed(2)}</span>
       </div>
 
       <button
