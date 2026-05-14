@@ -28,6 +28,6 @@ public class ImageUploadController {
 
         return imageStorageService.storeImages(productId, files)
                 .collectList()
-                .map(urls -> Map.of("productId", productId, "imageUrls", urls));
+                .map(urls -> Map.of("productId", productId, "galleryImages", urls));
     }
 }

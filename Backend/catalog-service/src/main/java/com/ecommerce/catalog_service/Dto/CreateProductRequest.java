@@ -13,7 +13,10 @@ public record CreateProductRequest(
         String categoryId,
         String brand,
         @NotNull BigDecimal basePrice,
-        String imageUrl,
+        @jakarta.validation.constraints.Pattern(regexp = "^(http|https)://.*", message = "Invalid image URL") String image,
+        @jakarta.validation.constraints.Pattern(regexp = "^(http|https)://.*", message = "Invalid thumbnail URL") String thumbnail,
+        java.util.List<@jakarta.validation.constraints.Pattern(regexp = "^(http|https)://.*", message = "Invalid gallery image URL") String> galleryImages,
+        String altText,
         Double weight,
         Map<String, Object> attributes
 ) {}

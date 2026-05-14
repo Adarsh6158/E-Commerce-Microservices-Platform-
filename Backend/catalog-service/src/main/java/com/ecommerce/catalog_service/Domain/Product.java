@@ -32,9 +32,13 @@ public class Product {
 
     private BigDecimal basePrice;
 
-    private String imageUrl;
+    private String image;
 
-    private List<String> imageUrls;
+    private String thumbnail;
+
+    private List<String> galleryImages;
+
+    private String altText;
 
     @Indexed
     private boolean active;
@@ -72,11 +76,17 @@ public class Product {
     public BigDecimal getBasePrice() { return basePrice; }
     public void setBasePrice(BigDecimal basePrice) { this.basePrice = basePrice; }
 
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getImage() { return image; }
+    public void setImage(String image) { this.image = image; }
 
-    public List<String> getImageUrls() { return imageUrls; }
-    public void setImageUrls(List<String> imageUrls) { this.imageUrls = imageUrls; }
+    public String getThumbnail() { return thumbnail; }
+    public void setThumbnail(String thumbnail) { this.thumbnail = thumbnail; }
+
+    public List<String> getGalleryImages() { return galleryImages; }
+    public void setGalleryImages(List<String> galleryImages) { this.galleryImages = galleryImages; }
+
+    public String getAltText() { return altText; }
+    public void setAltText(String altText) { this.altText = altText; }
 
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }

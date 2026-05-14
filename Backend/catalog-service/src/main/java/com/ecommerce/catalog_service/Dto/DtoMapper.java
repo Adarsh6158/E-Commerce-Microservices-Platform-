@@ -17,8 +17,10 @@ public final class DtoMapper {
                 p.getCategoryId(),
                 p.getBrand(),
                 p.getBasePrice(),
-                p.getImageUrl(),
-                p.getImageUrls(),
+                p.getImage(),
+                p.getThumbnail(),
+                p.getGalleryImages(),
+                p.getAltText(),
                 p.isActive(),
                 p.getWeight(),
                 p.getAttributes(),
@@ -35,7 +37,10 @@ public final class DtoMapper {
         p.setCategoryId(r.categoryId());
         p.setBrand(r.brand());
         p.setBasePrice(r.basePrice());
-        p.setImageUrl(r.imageUrl());
+        p.setImage(r.image());
+        p.setThumbnail(r.thumbnail());
+        p.setGalleryImages(r.galleryImages());
+        p.setAltText(r.altText());
         p.setWeight(r.weight());
         p.setAttributes(r.attributes());
         return p;

@@ -60,7 +60,10 @@ public class ProductController {
         product.setCategoryId(request.categoryId());
         product.setBrand(request.brand());
         product.setBasePrice(request.basePrice());
-        product.setImageUrl(request.imageUrl());
+        product.setImage(request.image());
+        product.setThumbnail(request.thumbnail());
+        product.setGalleryImages(request.galleryImages());
+        product.setAltText(request.altText());
         if (request.active() != null) product.setActive(request.active());
         product.setWeight(request.weight());
         product.setAttributes(request.attributes());

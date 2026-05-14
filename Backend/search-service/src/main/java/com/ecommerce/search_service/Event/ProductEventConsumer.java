@@ -52,7 +52,18 @@ public class ProductEventConsumer {
                 doc.setBasePrice(new BigDecimal(node.get("basePrice").asText()));
             }
 
-            doc.setImageUrl(getTextOrNull(node, "imageUrl"));
+            doc.setImage(getTextOrNull(node, "image"));
+            doc.setThumbnail(getTextOrNull(node, "thumbnail"));
+            
+            if (node.has("galleryImages") && node.get("galleryImages").isArray()) {
+                java.util.List<String> gImgs = new java.util.ArrayList<>();
+                for (JsonNode imgNode : node.get("galleryImages")) {
+                    gImgs.add(imgNode.asText());
+                }
+                doc.setGalleryImages(gImgs);
+            }
+            
+            doc.setAltText(getTextOrNull(node, "altText"));
             doc.setActive(node.has("active") && node.get("active").asBoolean(true));
             doc.setUpdatedAt(Instant.now());
 

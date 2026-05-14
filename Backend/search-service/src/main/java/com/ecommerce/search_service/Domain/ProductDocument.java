@@ -38,7 +38,16 @@ public class ProductDocument {
     private BigDecimal basePrice;
 
     @Field(type = FieldType.Keyword)
-    private String imageUrl;
+    private String image;
+
+    @Field(type = FieldType.Keyword)
+    private String thumbnail;
+
+    @Field(type = FieldType.Keyword)
+    private java.util.List<String> galleryImages;
+
+    @Field(type = FieldType.Keyword)
+    private String altText;
 
     @Field(type = FieldType.Boolean)
     private boolean active;
@@ -75,8 +84,17 @@ public class ProductDocument {
     public BigDecimal getBasePrice() { return basePrice; }
     public void setBasePrice(BigDecimal basePrice) { this.basePrice = basePrice; }
 
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public String getImage() { return image; }
+    public void setImage(String image) { this.image = image; }
+
+    public String getThumbnail() { return thumbnail; }
+    public void setThumbnail(String thumbnail) { this.thumbnail = thumbnail; }
+
+    public java.util.List<String> getGalleryImages() { return galleryImages; }
+    public void setGalleryImages(java.util.List<String> galleryImages) { this.galleryImages = galleryImages; }
+
+    public String getAltText() { return altText; }
+    public void setAltText(String altText) { this.altText = altText; }
 
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }

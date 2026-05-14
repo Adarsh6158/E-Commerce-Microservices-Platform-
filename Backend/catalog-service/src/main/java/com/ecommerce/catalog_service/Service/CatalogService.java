@@ -93,7 +93,10 @@ public class CatalogService {
                             saved.getBrand(),
                             saved.getCategoryId(),
                             saved.getBasePrice(),
-                            saved.getImageUrl(),
+                            saved.getImage(),
+                            saved.getThumbnail(),
+                            saved.getGalleryImages(),
+                            saved.getAltText(),
                             saved.getAttributes(),
                             correlationId
                     ));
@@ -109,7 +112,10 @@ public class CatalogService {
                     if (updates.getDescription() != null) existing.setDescription(updates.getDescription());
                     if (updates.getBrand() != null) existing.setBrand(updates.getBrand());
                     if (updates.getBasePrice() != null) existing.setBasePrice(updates.getBasePrice());
-                    if (updates.getImageUrl() != null) existing.setImageUrl(updates.getImageUrl());
+                    if (updates.getImage() != null) existing.setImage(updates.getImage());
+                    if (updates.getThumbnail() != null) existing.setThumbnail(updates.getThumbnail());
+                    if (updates.getGalleryImages() != null) existing.setGalleryImages(updates.getGalleryImages());
+                    if (updates.getAltText() != null) existing.setAltText(updates.getAltText());
                     if (updates.getAttributes() != null) existing.setAttributes(updates.getAttributes());
                     if (updates.getCategoryId() != null) existing.setCategoryId(updates.getCategoryId());
 
@@ -129,7 +135,10 @@ public class CatalogService {
                                             saved.getBrand(),
                                             saved.getCategoryId(),
                                             saved.getBasePrice(),
-                                            saved.getImageUrl(),
+                                            saved.getImage(),
+                                            saved.getThumbnail(),
+                                            saved.getGalleryImages(),
+                                            saved.getAltText(),
                                             saved.isActive(),
                                             saved.getAttributes(),
                                             correlationId

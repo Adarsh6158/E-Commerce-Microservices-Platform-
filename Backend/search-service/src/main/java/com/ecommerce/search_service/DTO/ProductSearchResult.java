@@ -12,7 +12,10 @@ public record ProductSearchResult(
         String categoryId,
         String categoryName,
         BigDecimal basePrice,
-        String imageUrl,
+        String image,
+        String thumbnail,
+        java.util.List<String> galleryImages,
+        String altText,
         boolean active,
         Object attributes,
         Instant updatedAt

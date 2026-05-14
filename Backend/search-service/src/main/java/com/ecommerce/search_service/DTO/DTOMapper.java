@@ -16,7 +16,10 @@ public final class DTOMapper {
                 d.getCategoryId(),
                 d.getCategoryName(),
                 d.getBasePrice(),
-                d.getImageUrl(),
+                d.getImage(),
+                d.getThumbnail(),
+                d.getGalleryImages(),
+                d.getAltText(),
                 d.isActive(),
                 d.getAttributes(),
                 d.getUpdatedAt()

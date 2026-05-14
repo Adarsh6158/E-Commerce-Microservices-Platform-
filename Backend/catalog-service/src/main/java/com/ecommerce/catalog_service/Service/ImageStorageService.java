@@ -102,16 +102,16 @@ public class ImageStorageService {
         return productRepository.findById(productId)
                 .flatMap(product -> {
 
-                    List<String> existing = product.getImageUrls() != null
-                            ? new ArrayList<>(product.getImageUrls())
+                    List<String> existing = product.getGalleryImages() != null
+                            ? new ArrayList<>(product.getGalleryImages())
                             : new ArrayList<>();
 
                     existing.addAll(newUrls);
-                    product.setImageUrls(existing);
+                    product.setGalleryImages(existing);
 
                     // set primary image if missing
-                    if (product.getImageUrl() == null && !newUrls.isEmpty()) {
-                        product.setImageUrl(newUrls.get(0));
+                    if ((product.getImage() == null || product.getImage().isEmpty()) && !newUrls.isEmpty()) {
+                        product.setImage(newUrls.get(0));
                     }
 
                     return productRepository.save(product);
