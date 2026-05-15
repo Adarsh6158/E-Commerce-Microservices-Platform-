@@ -158,6 +158,25 @@
   border-radius: 9999px;
   object-fit: cover;
 }
+.sf-header__action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  color: hsla(0, 0%, 100%, 0.7);
+  background: hsla(0, 0%, 100%, 0.05);
+  transition: all 0.2s var(--sf-ease-standard);
+  border: 1px solid hsla(0, 0%, 100%, 0.1);
+}
+
+.sf-header__action-btn:hover {
+  color: #fff;
+  background: hsla(0, 0%, 100%, 0.12);
+  border-color: hsla(0, 0%, 100%, 0.2);
+}
+
 .sf-avatar-link {
   text-decoration: none;
   display: flex;

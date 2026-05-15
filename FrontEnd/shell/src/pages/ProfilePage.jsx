@@ -120,9 +120,17 @@ export function ProfilePage() {
             {firstName} {lastName}
           </h2>
           <p className="profile-card__email">{user?.email}</p>
-          {user?.roles && (
-            <span className="profile-card__role-badge">{user.roles}</span>
-          )}
+          
+          <div className="profile-card__badges">
+            {user?.roles?.split(',').map((role) => (
+              <span 
+                key={role} 
+                className={`profile-card__role-badge ${role.trim() === 'ADMIN' ? 'profile-card__role-badge--admin' : ''}`}
+              >
+                {role.trim()}
+              </span>
+            ))}
+          </div>
         </div>
 
         <form onSubmit={handleSave} className="profile-form">
