@@ -59,7 +59,7 @@ export function Layout({ children }) {
   ];
   return (
     <div className="sf-app">
-      {}
+      { }
       <motion.header
         className={`sf-header ${scrolled ? 'sf-header--scrolled' : ''}`}
         initial={{ y: -80 }}
@@ -67,7 +67,7 @@ export function Layout({ children }) {
         transition={{ type: 'spring', stiffness: 120, damping: 20 }}
       >
         <div className="sf-header__inner">
-          {}
+          { }
           <a
             href="/"
             className="sf-header__logo"
@@ -78,16 +78,16 @@ export function Layout({ children }) {
               }
             }}
           >
-            <motion.span
+            <motion.div
               className="sf-header__logo-icon"
-              whileHover={{ rotate: [0, -10, 10, 0] }}
+              whileHover={{ rotate: [0, -5, 5, 0], scale: 1.1 }}
               transition={{ duration: 0.4 }}
             >
-              🛍️
-            </motion.span>
-            <span className="sf-header__logo-text">ShopFlux</span>
+              <img src="/logo.png" alt="ShopFlux" width="36" height="36" style={{ objectFit: 'contain' }} />
+            </motion.div>
+            <span className="sf-header__logo-text">Shop<span className="sf-logo-accent">Flux</span></span>
           </a>
-          {}
+          { }
           <button
             className="sf-header__hamburger"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -106,7 +106,7 @@ export function Layout({ children }) {
               className="sf-hamburger-line"
             />
           </button>
-          {}
+          { }
           <nav className={`sf-header__nav ${menuOpen ? 'sf-header__nav--open' : ''}`}>
             {navItems.map(({ to, label, icon, badge }) => (
               <Link
@@ -137,7 +137,7 @@ export function Layout({ children }) {
               </Link>
             ))}
           </nav>
-          {}
+          { }
           <div className="sf-header__actions">
             {isAuthenticated ? (
               <>
@@ -183,7 +183,7 @@ export function Layout({ children }) {
           </div>
         </div>
       </motion.header>
-      {}
+      { }
       <main className="sf-main">
         <AnimatePresence mode="wait">
           <motion.div
@@ -197,12 +197,15 @@ export function Layout({ children }) {
           </motion.div>
         </AnimatePresence>
       </main>
-      {}
+      { }
       <footer className="sf-footer">
         <div className="sf-footer__inner">
           <div className="sf-footer__grid">
             <div className="sf-footer__brand">
-              <div className="sf-footer__brand-name">🛍️ ShopFlux</div>
+              <div className="sf-footer__brand-name">
+                <img src="/logo.png" alt="" width="28" height="28" style={{ objectFit: 'contain' }} />
+                <span>Shop<span className="sf-logo-accent">Flux</span></span>
+              </div>
               <p className="sf-footer__brand-desc">
                 Your one-stop destination for quality products at great prices.
                 Fast shipping and excellent customer service.
@@ -237,12 +240,12 @@ export function Layout({ children }) {
             <div className="sf-footer__social">
               <a href="https://twitter.com/your_username" target="_blank" aria-label="Twitter">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M22.46 6c-.77.35-1.5.6-2.3.7a3.92 3.92 0 0 0 1.7-2.2 7.72 7.72 0 0 1-2.5 1A3.9 3.9 0 0 0 16.1 4c-2.2 0-4 1.8-4 4 0 .3 0 .6.1.9A11.1 11.1 0 0 1 3 5.1a4 4 0 0 0-.5 2c0 1.4.7 2.6 1.8 3.3a4 4 0 0 1-1.8-.5v.1c0 2 1.4 3.6 3.2 4a4 4 0 0 1-1.8.1c.5 1.6 2 2.7 3.7 2.8A7.8 7.8 0 0 1 2 19.5 11 11 0 0 0 8 21c7.2 0 11.2-6 11.2-11.2v-.5c.8-.6 1.5-1.3 2-2.3z"/>
+                  <path d="M22.46 6c-.77.35-1.5.6-2.3.7a3.92 3.92 0 0 0 1.7-2.2 7.72 7.72 0 0 1-2.5 1A3.9 3.9 0 0 0 16.1 4c-2.2 0-4 1.8-4 4 0 .3 0 .6.1.9A11.1 11.1 0 0 1 3 5.1a4 4 0 0 0-.5 2c0 1.4.7 2.6 1.8 3.3a4 4 0 0 1-1.8-.5v.1c0 2 1.4 3.6 3.2 4a4 4 0 0 1-1.8.1c.5 1.6 2 2.7 3.7 2.8A7.8 7.8 0 0 1 2 19.5 11 11 0 0 0 8 21c7.2 0 11.2-6 11.2-11.2v-.5c.8-.6 1.5-1.3 2-2.3z" />
                 </svg>
               </a>
               <a href="https://github.com/your_username" target="_blank" aria-label="GitHub">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 .5C5.7.5.7 5.6.7 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 .1 2-.7 2.4-1.1.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.2 2.7 18.2 3 18.2 3c.6 1.6.2 2.8.1 3.1.8.9 1.2 2 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1 .8 2v3c0 .3.2.7.8.6A11.3 11.3 0 0 0 23.3 12c0-6.4-5-11.5-11.3-11.5z"/>
+                  <path d="M12 .5C5.7.5.7 5.6.7 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 .1 2-.7 2.4-1.1.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.2 2.7 18.2 3 18.2 3c.6 1.6.2 2.8.1 3.1.8.9 1.2 2 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1 .8 2v3c0 .3.2.7.8.6A11.3 11.3 0 0 0 23.3 12c0-6.4-5-11.5-11.3-11.5z" />
                 </svg>
               </a>
             </div>
