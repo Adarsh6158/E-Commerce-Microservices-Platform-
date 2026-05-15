@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import reactor.core.publisher.Mono;
 
 @Component
 public class AdminSeeder implements ApplicationRunner {
@@ -26,31 +27,34 @@ public class AdminSeeder implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        userRepository.existsByEmail("admin@shophub.com")
+        seedUser("adarsh@shopflux.com", "Adarsh123!", "Adarsh", "Kumar", "USER,ADMIN");
+        seedUser("test@shopflux.com", "Test123!", "Test", "User", "USER");
+    }
+
+    private void seedUser(String email, String password, String firstName, String lastName, String roles) {
+        userRepository.existsByEmail(email)
                 .flatMap(exists -> {
                     if (exists) {
-                        log.info("Admin user already exists, skipping seed");
-                        return userRepository.findByEmail("admin@shophub.com");
+                        return Mono.empty();
                     }
 
-                    User admin = new User();
-                    admin.setEmail("admin@shophub.com");
-                    admin.setPasswordHash(passwordEncoder.encode("Admin123!"));
-                    admin.setFirstName("Admin");
-                    admin.setLastName("ShopHub");
-                    admin.setRoles("USER,ADMIN");
-                    admin.setEnabled(true);
-                    admin.setLocked(false);
-                    admin.setFailedLoginAttempts(0);
-                    admin.setCreatedAt(Instant.now());
-                    admin.setUpdatedAt(Instant.now());
+                    User user = new User();
+                    user.setEmail(email);
+                    user.setPasswordHash(passwordEncoder.encode(password));
+                    user.setFirstName(firstName);
+                    user.setLastName(lastName);
+                    user.setRoles(roles);
+                    user.setEnabled(true);
+                    user.setLocked(false);
+                    user.setFailedLoginAttempts(0);
+                    user.setCreatedAt(Instant.now());
+                    user.setUpdatedAt(Instant.now());
 
-                    log.info("Seeding admin user: admin@shophub.com");
-                    return userRepository.save(admin);
+                    log.info("Seeding user: {}", email);
+                    return userRepository.save(user);
                 })
                 .subscribe(
-                        user -> log.info("Admin user ready: email={}, roles={}", user.getEmail(), user.getRoles()),
-                        error -> log.error("Failed to seed admin user", error)
-                );
+                        user -> log.info("User ready: email={}, roles={}", user.getEmail(), user.getRoles()),
+                        error -> log.error("Failed to seed user: {}", email, error));
     }
 }
