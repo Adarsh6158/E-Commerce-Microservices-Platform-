@@ -71,7 +71,7 @@
 }
 .sf-nav-link {
   position: relative;
-  color: hsla(0, 0%, 100%, 0.55);
+  color: hsla(0, 0%, 100%, 0.7);
   text-decoration: none;
   font-size: 0.8125rem;
   font-weight: 500;
@@ -99,8 +99,18 @@
   z-index: -1;
 }
 .sf-nav-link__icon {
-  font-size: 0.875rem;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.sf-nav-link:hover .sf-nav-link__icon {
+  transform: translateY(-1px) scale(1.1);
+}
+.sf-nav-link--active .sf-nav-link__icon {
+  filter: drop-shadow(0 0 8px hsla(346, 84%, 61%, 0.4));
 }
 .sf-nav-link__label {
   line-height: 1;
