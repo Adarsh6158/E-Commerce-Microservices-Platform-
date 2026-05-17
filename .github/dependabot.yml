@@ -1,0 +1,82 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/Backend/analytics-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Backend/auth-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Backend/cart-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Backend/catalog-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Backend/inventory-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Backend/notification-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Backend/order-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Backend/payment-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Backend/pricing-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Backend/search-service"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Gateway"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Processors/Kafka-Processors"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/Processors/Spark-Jobs"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/FrontEnd/admin-mfe"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/FrontEnd/cart-mfe"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/FrontEnd/order-mfe"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/FrontEnd/product-mfe"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/FrontEnd/search-mfe"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/FrontEnd/shared/design-system"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/FrontEnd/shell"
+    schedule:
+      interval: "weekly"
