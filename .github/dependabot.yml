@@ -4,79 +4,158 @@ updates:
     directory: "/Backend/analytics-service"
     schedule:
       interval: "weekly"
+    groups:
+      analytics-service-updates:
+        patterns: ["*"]
+        
   - package-ecosystem: "maven"
     directory: "/Backend/auth-service"
     schedule:
       interval: "weekly"
+    groups:
+      auth-service-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Backend/cart-service"
     schedule:
       interval: "weekly"
+    groups:
+      cart-service-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Backend/catalog-service"
     schedule:
       interval: "weekly"
+    groups:
+      catalog-service-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Backend/inventory-service"
     schedule:
       interval: "weekly"
+    groups:
+      inventory-service-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Backend/notification-service"
     schedule:
       interval: "weekly"
+    groups:
+      notification-service-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Backend/order-service"
     schedule:
       interval: "weekly"
+    groups:
+      order-service-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Backend/payment-service"
     schedule:
       interval: "weekly"
+    groups:
+      payment-service-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Backend/pricing-service"
     schedule:
       interval: "weekly"
+    groups:
+      pricing-service-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Backend/search-service"
     schedule:
       interval: "weekly"
+    groups:
+      search-service-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Gateway"
     schedule:
       interval: "weekly"
+    groups:
+      gateway-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Processors/Kafka-Processors"
     schedule:
       interval: "weekly"
+    groups:
+      kafka-processors-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "maven"
     directory: "/Processors/Spark-Jobs"
     schedule:
       interval: "weekly"
+    groups:
+      spark-jobs-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "npm"
     directory: "/FrontEnd/admin-mfe"
     schedule:
       interval: "weekly"
+    groups:
+      admin-frontend-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "npm"
     directory: "/FrontEnd/cart-mfe"
     schedule:
       interval: "weekly"
+    groups:
+      cart-frontend-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "npm"
     directory: "/FrontEnd/order-mfe"
     schedule:
       interval: "weekly"
+    groups:
+      order-frontend-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "npm"
     directory: "/FrontEnd/product-mfe"
     schedule:
       interval: "weekly"
+    groups:
+      product-frontend-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "npm"
     directory: "/FrontEnd/search-mfe"
     schedule:
       interval: "weekly"
+    groups:
+      search-frontend-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "npm"
     directory: "/FrontEnd/shared/design-system"
     schedule:
       interval: "weekly"
+    groups:
+      design-system-updates:
+        patterns: ["*"]
+
   - package-ecosystem: "npm"
     directory: "/FrontEnd/shell"
     schedule:
       interval: "weekly"
+    groups:
+      shell-frontend-updates:
+        patterns: ["*"]
