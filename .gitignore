@@ -1,8 +1,4 @@
-# ============================================
-# E-Commerce Microservices Platform - .gitignore
-# ============================================
-
-# ============ JAVA / MAVEN ============
+# JAVA / MAVEN
 target/
 .m2/
 *.jar
@@ -15,7 +11,7 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 
-# ============ NODE.js / NPM ============
+# NODE.js / NPM
 node_modules/
 npm-debug.log
 yarn-error.log
@@ -25,8 +21,7 @@ build/
 .pnp
 .pnp.js
 
-# ============ IDE / Editor ============
-# IntelliJ IDEA
+# IDE / Editor
 .idea/
 *.iws
 *.iml
@@ -61,7 +56,7 @@ out/
 .vim/
 .emacs.d/
 
-# ============ OPERATING SYSTEM ============
+# OPERATING SYSTEM
 # macOS
 .DS_Store
 .AppleDouble
@@ -81,7 +76,7 @@ $RECYCLE.BIN/
 # Linux
 .directory
 
-# ============ ENVIRONMENT & SECRETS ============
+# ENVIRONMENT & SECRETS
 .env
 .env.local
 .env.*.local
@@ -94,13 +89,13 @@ secrets.json
 *.key
 *.crt
 
-# ============ LOGS ============
+# LOGS
 *.log
 *.log.*
 logs/
 log/
 
-# ============ COVERAGE & REPORTS ============
+# COVERAGE & REPORTS
 coverage/
 .nyc_output/
 htmlcov/
@@ -110,7 +105,7 @@ test-results/
 surefire-reports/
 jacoco*.xml
 
-# ============ BUILD / DIST ============
+# BUILD / DIST
 dist/
 build/
 bin/
@@ -120,17 +115,17 @@ gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
 
-# ============ DATABASE ============
+# DATABASE
 *.db
 *.sqlite
 *.sqlite3
 data/
 
-# ============ DOCKER ============
+# DOCKER
 docker-compose.override.yml
 .dockerignore
 
-# ============ TEMPORARY FILES ============
+# TEMPORARY FILES
 *.tmp
 *.temp
 .temp/
@@ -140,13 +135,14 @@ tmp/
 venv/
 env/
 
-# ============ OS SPECIFIC ============
+# OS SPECIFIC
 .classpath
 .project
 .settings/
 .factorypath
 *.swp
 
-# ============ IDE EXTENSIONS ============
+# IDE EXTENSIONS
 .lsp
 .pylint.d/
+
