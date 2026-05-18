@@ -22,8 +22,6 @@ yarn-error.log
 .npm
 dist/
 build/
-package-lock.json
-yarn.lock
 .pnp
 .pnp.js
 
@@ -128,7 +126,6 @@ gradle-app.setting
 *.sqlite
 *.sqlite3
 data/
-db/
 
 # ============ DOCKER ============
 docker-compose.override.yml
