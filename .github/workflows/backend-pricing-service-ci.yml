@@ -1,0 +1,49 @@
+name: Pricing Service CI
+
+on:
+  push:
+    branches: [ "main", "master", "ft**", "fb**" ]
+    paths:
+      - 'Backend/pricing-service/**'
+      - 'Infra/**'
+      - '.github/workflows/backend-pricing-service-ci.yml'
+  pull_request:
+    branches: [ "main", "master", "ft**", "fb**" ]
+    paths:
+      - 'Backend/pricing-service/**'
+      - 'Infra/**'
+      - '.github/workflows/backend-pricing-service-ci.yml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Start Infrastructure
+      working-directory: ./Infra
+      run: |
+        docker compose up -d
+        sleep 45 # Wait for services to initialize
+
+    - name: Build and Test
+      working-directory: ./Backend/pricing-service
+      run: mvn -B clean verify
+
+    - name: Verify Docker Build
+      if: hashFiles('Backend/pricing-service/Dockerfile') != ''
+      working-directory: ./Backend/pricing-service
+      run: docker build -t pricing-service:test .
+
+    - name: Stop Infrastructure
+      if: always()
+      working-directory: ./Infra
+      run: docker compose down -v

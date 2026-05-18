@@ -1,0 +1,47 @@
+name: Shared Design System CI
+
+on:
+  push:
+    branches: [ "main", "master", "ft**", "fb**" ]
+    paths:
+      - 'FrontEnd/shared/design-system/**'
+      - '.github/workflows/frontend-shared-design-system-ci.yml'
+  pull_request:
+    branches: [ "main", "master", "ft**", "fb**" ]
+    paths:
+      - 'FrontEnd/shared/design-system/**'
+      - '.github/workflows/frontend-shared-design-system-ci.yml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: ./FrontEnd/shared/design-system/package-lock.json
+
+    - name: Install Dependencies
+      working-directory: ./FrontEnd/shared/design-system
+      run: npm ci
+
+    - name: Run NPM Audit for Vulnerabilities
+      working-directory: ./FrontEnd/shared/design-system
+      run: npm audit --audit-level=high || echo "Audit found vulnerabilities, check logs."
+
+    - name: Run Linter
+      working-directory: ./FrontEnd/shared/design-system
+      run: npm run lint --if-present
+
+    - name: Run Tests
+      working-directory: ./FrontEnd/shared/design-system
+      run: npm run test --if-present
+
+    - name: Build
+      working-directory: ./FrontEnd/shared/design-system
+      run: npm run build --if-present
