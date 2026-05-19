@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shell-mfe
+  namespace: ecommerce
+  labels:
+    app: shell-mfe
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shell-mfe
+  template:
+    metadata:
+      labels:
+        app: shell-mfe
+    spec:
+      containers:
+      - name: shell-mfe
+        image: ecommerce/shell-mfe:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "k8s"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 15

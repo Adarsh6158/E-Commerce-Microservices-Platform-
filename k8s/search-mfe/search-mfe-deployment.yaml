@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-mfe
+  namespace: ecommerce
+  labels:
+    app: search-mfe
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: search-mfe
+  template:
+    metadata:
+      labels:
+        app: search-mfe
+    spec:
+      containers:
+      - name: search-mfe
+        image: ecommerce/search-mfe:latest
+        ports:
+        - containerPort: 3002
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "k8s"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3002
+          initialDelaySeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3002
+          initialDelaySeconds: 15

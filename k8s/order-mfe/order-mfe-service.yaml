@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-mfe
+  namespace: ecommerce
+  labels:
+    app: order-mfe
+spec:
+  type: ClusterIP
+  selector:
+    app: order-mfe
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3004

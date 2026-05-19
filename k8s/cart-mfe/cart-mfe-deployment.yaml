@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-mfe
+  namespace: ecommerce
+  labels:
+    app: cart-mfe
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cart-mfe
+  template:
+    metadata:
+      labels:
+        app: cart-mfe
+    spec:
+      containers:
+      - name: cart-mfe
+        image: ecommerce/cart-mfe:latest
+        ports:
+        - containerPort: 3003
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "k8s"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3003
+          initialDelaySeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3003
+          initialDelaySeconds: 15

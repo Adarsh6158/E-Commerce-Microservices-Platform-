@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-mfe
+  namespace: ecommerce
+  labels:
+    app: order-mfe
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order-mfe
+  template:
+    metadata:
+      labels:
+        app: order-mfe
+    spec:
+      containers:
+      - name: order-mfe
+        image: ecommerce/order-mfe:latest
+        ports:
+        - containerPort: 3004
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "k8s"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3004
+          initialDelaySeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3004
+          initialDelaySeconds: 15

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-mfe
+  namespace: ecommerce
+  labels:
+    app: admin-mfe
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: admin-mfe
+  template:
+    metadata:
+      labels:
+        app: admin-mfe
+    spec:
+      containers:
+      - name: admin-mfe
+        image: ecommerce/admin-mfe:latest
+        ports:
+        - containerPort: 3005
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "k8s"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3005
+          initialDelaySeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3005
+          initialDelaySeconds: 15
